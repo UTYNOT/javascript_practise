@@ -1,7 +1,7 @@
 const rps = ["rock", "paper", "scissors"];
 var humanScore = 0;
 var computerScore = 0;
-let humanChoice = null;
+let humanChoice = "";
 
 
 function getComputerChoice(){
@@ -37,22 +37,41 @@ function playRound(humanChoice, computerChoice) {
      }
 }
 
-function playGame(){
-    for(let i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
-    }
-    console.log("Computer Score " + computerScore);
-    console.log("Your Score " + humanScore);
+function playGame(humanChoice){
+    const computerSelection = getComputerChoice();
+    playRound(humanChoice, computerSelection);
 
-    if(humanScore > computerScore) {
-        console.log("You Win");
-    } else if (computerScore > humanScore) {
-        console.log("You lose")
-    } else {
-        console.log("It's a tie")
+    //Updates the score here everytime a game has been played
+    updateScore();
+
+    //Annoucements the winner when a player reaches a score of 5.
+    if(humanScore >= 5) {
+        document.getElementById("win-lose-message").textContent = "You Win";
+    }
+
+    if(computerScore >= 5) {
+         document.getElementById("win-lose-message").textContent = "Computer Wins";
     }
 }
 
-playGame();
+function updateScore() {
+    document.getElementById("human-score").textContent = "Your Score: " + humanScore;
+    document.getElementById("computer-score").textContent = "Computer Score: " + computerScore;
+}
+
+document.getElementById("rock").addEventListener("click", () => {
+    humanChoice = "rock";
+    playGame(humanChoice);
+});
+
+document.getElementById("paper").addEventListener("click", () => {
+    humanChoice = "paper";
+    playGame(humanChoice);
+});
+
+document.getElementById("scissors").addEventListener("click", () => {
+    humanChoice = "scissors";
+    playGame(humanChoice);
+});
+
+updateScore();
